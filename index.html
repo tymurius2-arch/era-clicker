@@ -3,76 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Era Clicker — от костра до звёзд</title>
-<meta name="description" content="Кликер про развитие цивилизации: от каменного века до космоса.">
+<title>Державы — кликер-стратегия</title>
+<meta name="description" content="Кликер-стратегия на карте Европы: экономика, армия, войны, дипломатия и технологии.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="app">
   <header id="top">
-    <div class="brand">
-      <span id="eraIcon">🔥</span>
+    <div id="realm">
+      <span id="realmChip"></span>
       <div>
-        <div class="title">Era Clicker</div>
-        <div id="eraName" class="sub">Каменный век</div>
+        <div id="realmName">—</div>
+        <div id="eraLine"><span id="eraName"></span> · <span id="year"></span></div>
       </div>
     </div>
-    <div id="resbar"></div>
-    <button id="muteBtn" class="iconbtn" title="Звук">🔊</button>
+    <div id="resbar">
+      <div class="res" title="Золото"><span>💰</span><div><b id="r-gold">0</b><small id="rr-gold"></small></div></div>
+      <div class="res" title="Рекруты"><span>👥</span><div><b id="r-mp">0</b><small id="rr-mp"></small></div></div>
+      <div class="res" title="Наука"><span>🔬</span><div><b id="r-sci">0</b><small id="rr-sci"></small></div></div>
+      <div class="res" title="Атака армии"><span>⚔️</span><div><b id="r-atk">0</b><small>атака</small></div></div>
+      <div class="res" title="Оборона армии"><span>🛡️</span><div><b id="r-def">0</b><small>оборона</small></div></div>
+      <div class="res" title="Провинции"><span>🗺️</span><div><b id="r-prov">0</b><small>провинций</small></div></div>
+    </div>
   </header>
 
   <main>
-    <section id="left">
-      <div id="goal"></div>
-      <div id="buffs"></div>
-      <div id="clickArea"></div>
-      <div id="sky"></div>
-      <div id="scene"><div id="sceneItems"></div></div>
+    <section id="mapWrap">
+      <canvas id="map"></canvas>
+      <div id="zoomBtns">
+        <button id="zIn">＋</button><button id="zOut">－</button><button id="zHome" title="К моей стране">⌂</button>
+      </div>
+      <div id="wars"></div>
+      <div id="sel" hidden></div>
+      <div id="hint">Кликай по своим провинциям, чтобы собирать золото</div>
     </section>
 
-    <section id="right">
+    <section id="side">
       <nav id="tabs">
-        <button data-tab="build" class="on">🏗️ Постройки</button>
-        <button data-tab="upg">⬆️ Улучшения <span id="upgBadge" class="badge" hidden></span></button>
-        <button data-tab="era">⏳ Эпохи <span id="eraBadge" class="badge" hidden>!</span></button>
-        <button data-tab="legacy">👑 Наследие</button>
-        <button data-tab="ach">🏆 Достижения</button>
-        <button data-tab="stats">📊 Статистика</button>
+        <button data-tab="econ" class="on">🏛️ Экономика</button>
+        <button data-tab="army">⚔️ Армия</button>
+        <button data-tab="tech">🔬 Наука <span class="badge" id="techBadge" hidden>!</span></button>
+        <button data-tab="diplo">🤝 Дипломатия</button>
+        <button data-tab="log">📜 Хроника</button>
+        <button data-tab="ach">🏆</button>
         <button data-tab="set">⚙️</button>
       </nav>
       <div id="panels">
-        <div class="panel on" id="p-build">
-          <div class="buyamt">Покупать:
-            <button data-amt="1" class="on">×1</button>
-            <button data-amt="10">×10</button>
-            <button data-amt="100">×100</button>
-            <button data-amt="max">Макс</button>
-          </div>
-          <div id="buildList"></div>
+        <div class="panel on" id="p-econ">
+          <div class="buyamt">Покупать: <button data-amt="1" class="on">×1</button><button data-amt="10">×10</button><button data-amt="100">×100</button><button data-amt="max">Макс</button></div>
+          <div id="econInfo" class="info"></div>
+          <div id="bldList"></div>
         </div>
-        <div class="panel" id="p-upg">
-          <div id="upgList"></div>
-          <h4>Изучено</h4>
-          <div id="upgOwned"></div>
+        <div class="panel" id="p-army">
+          <div class="buyamt">Нанимать: <button data-amt="1" class="on">×1</button><button data-amt="10">×10</button><button data-amt="100">×100</button><button data-amt="max">Макс</button></div>
+          <div id="armyInfo" class="info"></div>
+          <div id="unitList"></div>
         </div>
-        <div class="panel" id="p-era"></div>
-        <div class="panel" id="p-legacy"></div>
+        <div class="panel" id="p-tech"></div>
+        <div class="panel" id="p-diplo"></div>
+        <div class="panel" id="p-log"></div>
         <div class="panel" id="p-ach"></div>
-        <div class="panel" id="p-stats"></div>
         <div class="panel" id="p-set"></div>
       </div>
     </section>
   </main>
 </div>
 
-<button id="star" hidden>⭐</button>
+<div id="floats"></div>
 <div id="toasts"></div>
-<div id="modal" hidden>
-  <div class="box">
-    <div id="modalBody"></div>
-    <div id="modalBtns"></div>
-  </div>
-</div>
+<div id="modal" hidden><div class="box"><div id="modalBody"></div><div id="modalBtns"></div></div></div>
+
+<script src="map.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
