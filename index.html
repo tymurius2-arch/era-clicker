@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Era Clicker — от костра до звёзд</title>
+<meta name="description" content="Кликер про развитие цивилизации: от каменного века до космоса.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="brand">
+      <span id="eraIcon">🔥</span>
+      <div>
+        <div class="title">Era Clicker</div>
+        <div id="eraName" class="sub">Каменный век</div>
+      </div>
+    </div>
+    <div id="resbar"></div>
+    <button id="muteBtn" class="iconbtn" title="Звук">🔊</button>
+  </header>
+
+  <main>
+    <section id="left">
+      <div id="goal"></div>
+      <div id="buffs"></div>
+      <div id="clickArea"></div>
+      <div id="sky"></div>
+      <div id="scene"><div id="sceneItems"></div></div>
+    </section>
+
+    <section id="right">
+      <nav id="tabs">
+        <button data-tab="build" class="on">🏗️ Постройки</button>
+        <button data-tab="upg">⬆️ Улучшения <span id="upgBadge" class="badge" hidden></span></button>
+        <button data-tab="era">⏳ Эпохи <span id="eraBadge" class="badge" hidden>!</span></button>
+        <button data-tab="legacy">👑 Наследие</button>
+        <button data-tab="ach">🏆 Достижения</button>
+        <button data-tab="stats">📊 Статистика</button>
+        <button data-tab="set">⚙️</button>
+      </nav>
+      <div id="panels">
+        <div class="panel on" id="p-build">
+          <div class="buyamt">Покупать:
+            <button data-amt="1" class="on">×1</button>
+            <button data-amt="10">×10</button>
+            <button data-amt="100">×100</button>
+            <button data-amt="max">Макс</button>
+          </div>
+          <div id="buildList"></div>
+        </div>
+        <div class="panel" id="p-upg">
+          <div id="upgList"></div>
+          <h4>Изучено</h4>
+          <div id="upgOwned"></div>
+        </div>
+        <div class="panel" id="p-era"></div>
+        <div class="panel" id="p-legacy"></div>
+        <div class="panel" id="p-ach"></div>
+        <div class="panel" id="p-stats"></div>
+        <div class="panel" id="p-set"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button id="star" hidden>⭐</button>
+<div id="toasts"></div>
+<div id="modal" hidden>
+  <div class="box">
+    <div id="modalBody"></div>
+    <div id="modalBtns"></div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
